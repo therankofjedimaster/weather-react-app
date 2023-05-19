@@ -3,6 +3,9 @@
   text-align: center;
   height: 100%;
 }
+body {
+ background: radial-gradient(circle at 10% 20%, rgb(226, 240, 254) 0%, rgb(255, 247, 228) 90%);
+}
 .github a {
   text-decoration: none;
   color: black;
@@ -17,9 +20,9 @@
   margin: 50px auto;
   border: black 2px solid;
   border-radius: 10px;
-  font-family: "Roboto Condensed", sans-serif;
-  font-family: "Rowdies", cursive;
-  background-color: #dfe4e6;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-family: 'Rowdies', cursive;
+  background-color: #e5f2f7;
   position: relative;
   max-width: 800px;
 }

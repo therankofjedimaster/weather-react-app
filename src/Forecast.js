@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import "./index.css";
 import ReactAnimatedWeather from "react-animated-weather";
 
 export default function Forecast() {
-    const [forecast, setForecast] = useState(null);
     return (
         <div>
             <div className="forecast">

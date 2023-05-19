@@ -10,7 +10,7 @@ export default function Footer() {
                     {" "}
                     Open source code by Eugenia Zanarini available at{" "}
                     <a
-                        href="/"
+                        href="https://github.com/therankofjedimaster/weather-react-app"
                         target="_blank"
                         rel="noreferrer"
                     >

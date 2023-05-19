@@ -11,6 +11,8 @@ export default function Search() {
     const [wind, setWind] = useState(null);
     const [pressure, setPressure] = useState(null);
     const [description, setDescription] = useState(null);
+
+
     function searchCity(cityName) {
         const apiKey = "b6f13b15bc39c8fd600adbc9db22e8c9";
         const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=metric`;
@@ -29,6 +31,19 @@ export default function Search() {
         event.preventDefault();
         const cityName = document.querySelector("#search-city").value;
         searchCity(cityName);
+    }
+
+    function getWeatherIcon(description) {
+        switch (description) {
+            case "Clear":
+                return "CLEAR_DAY";
+            case "Clouds":
+                return "CLOUDY";
+            case "Rain":
+                return "RAIN";
+            default:
+                return "PARTLY_CLOUDY_DAY";
+        }
     }
 
     function getCurrentLocation() {
@@ -77,7 +92,7 @@ export default function Search() {
             <h1>
                 {city ? ` ${city}` : "Search for a city..."}{" "}
                 <ReactAnimatedWeather
-                    icon="PARTLY_CLOUDY_DAY"
+                    icon={[getWeatherIcon(description)]}
                     color="black"
                     size={50}
                     animate={true}

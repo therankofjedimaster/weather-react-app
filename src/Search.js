@@ -79,6 +79,10 @@ export default function Search() {
             setUnit("Celsius");
         }
     }
+    function formatLastFetchedDate(date) {
+        const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+        return date.toLocaleString(undefined, options).replace(/:\d{2}$/, '');
+    }
 
     useEffect(() => {
         getCurrentLocation();
@@ -94,6 +98,7 @@ export default function Search() {
                         id="search-city"
                         required
                         placeholder="Enter a city..."
+                        autoFocus="on"
                     />
                 </div>
                 <div>
@@ -115,7 +120,7 @@ export default function Search() {
                 />
             </h1>
             <h2 className="date">
-                Last fetched: {lastFetched ? lastFetched.toLocaleString() : "Unknown"}
+                Last fetched: {lastFetched ? formatLastFetchedDate(lastFetched) : "Unknown"}
             </h2>
 
             <div className="row row-cols-2 row-cols-md-1">
@@ -178,6 +183,6 @@ export default function Search() {
                     {""}
                 </p>
             </div>
-        </div>
+        </div >
     );
 }

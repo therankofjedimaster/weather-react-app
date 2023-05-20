@@ -6,7 +6,7 @@
 body {
  background: radial-gradient(circle at 10% 20%, rgb(226, 240, 254) 0%, rgb(255, 247, 228) 90%);
 }
-.github a {
+.github a{
   text-decoration: none;
   color: black;
   font-weight: 600;
@@ -14,6 +14,17 @@ body {
 .github a:hover {
   color: #3dd5f3;
 }
+
+.unit a{
+  text-decoration: none;
+  color: black;
+  font-weight: 600;
+}
+
+.unit a:hover {
+  color: #3dd5f3;
+}
+
 
 .container {
   padding: 20px 1px;

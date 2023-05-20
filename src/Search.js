@@ -11,7 +11,7 @@ export default function Search() {
     const [wind, setWind] = useState(null);
     const [pressure, setPressure] = useState(null);
     const [description, setDescription] = useState(null);
-
+    const [unit, setUnit] = useState("Celsius");
 
     function searchCity(cityName) {
         const apiKey = "b6f13b15bc39c8fd600adbc9db22e8c9";
@@ -62,6 +62,22 @@ export default function Search() {
                 setDescription(response.data.weather[0].main);
             });
         });
+
+    }
+    function showFahrenheit(event) {
+        event.preventDefault();
+        if (unit !== "Fahrenheit") {
+            setTemperature(Math.round((temperature * 9) / 5 + 32));
+            setUnit("Fahrenheit");
+        }
+    }
+
+    function showCelsius(event) {
+        event.preventDefault();
+        if (unit !== "Celsius") {
+            setTemperature(Math.round(((temperature - 32) * 5) / 9));
+            setUnit("Celsius");
+        }
     }
 
     useEffect(() => {
@@ -111,7 +127,14 @@ export default function Search() {
                             <span className="temp">
                                 {temperature ? Math.round(temperature) : "Thinking..."}
                             </span>
-                            <span className="unit">°C</span>{" "}
+                            <span className="unit"> <a href="/" onClick={showCelsius}>
+                                °C{" "}
+                            </a>{" "}
+                                |{" "}
+                                <a href="/" className="unit" onClick={showFahrenheit}>
+                                    {" "}
+                                    °F{" "}
+                                </a>{" "}</span>
                         </div>
                     </p>
                 </div>

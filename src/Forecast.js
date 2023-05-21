@@ -1,8 +1,28 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./index.css";
 import ReactAnimatedWeather from "react-animated-weather";
+import axios from "axios";
 
 export default function Forecast() {
+    const [forecast, setForecast] = useState([]);
+
+    useEffect(() => {
+        navigator.geolocation.getCurrentPosition(getForecast);
+    }, []);
+
+    function getForecast(position) {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+        const apiKey = "b6f13b15bc39c8fd600adbc9db22e8c9";
+        const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
+
+        axios
+            .get(forecastUrl)
+            .then((response) => {
+                setForecast(response.data.list.slice(0, 5));
+            })
+    }
+
     return (
         <div>
             <div className="forecast">
@@ -14,80 +34,63 @@ export default function Forecast() {
                         <div className="col">Thu</div>
                         <div className="col">Fri</div>
                     </div>
-                    <div className="weather-symbols">
-                        <div className="row row-cols-5">
-                            <div className="col">
-                                <ReactAnimatedWeather
-                                    icon="CLOUDY"
-                                    color="lightslategray"
-                                    size={30}
-                                    animate={true}
-                                />
-                            </div>
-                            <div className="col">
-                                {" "}
-                                <ReactAnimatedWeather
-                                    icon="CLOUDY"
-                                    color="lightslategray"
-                                    size={30}
-                                    animate={true}
-                                />
-                            </div>
-                            <div className="col">
-                                {" "}
-                                <ReactAnimatedWeather
-                                    icon="CLOUDY"
-                                    color="lightslategray"
-                                    size={30}
-                                    animate={true}
-                                />
-                            </div>
-                            <div className="col">
-                                {" "}
-                                <ReactAnimatedWeather
-                                    icon="CLOUDY"
-                                    color="lightslategray"
-                                    size={30}
-                                    animate={true}
-                                />
-                            </div>
-                            <div className="col">
-                                {" "}
-                                <ReactAnimatedWeather
-                                    icon="CLOUDY"
-                                    color="lightslategray"
-                                    size={30}
-                                    animate={true}
-                                />
-                            </div>
-                        </div>
-                    </div>
                 </div>
-                <div className="temp-days">
+                <div className="weather-symbols">
                     <div className="row row-cols-5">
                         <div className="col">
-                            <span className="maxTemp"></span>
-                            <span className="minTemp"></span>
+                            <ReactAnimatedWeather
+                                icon="CLOUDY"
+                                color="lightslategray"
+                                size={30}
+                                animate={true}
+                            />
                         </div>
                         <div className="col">
-                            <span className="maxTemp"></span>
-                            <span className="minTemp"></span>
+                            <ReactAnimatedWeather
+                                icon="CLOUDY"
+                                color="lightslategray"
+                                size={30}
+                                animate={true}
+                            />
                         </div>
                         <div className="col">
-                            <span className="maxTemp"></span>
-                            <span className="minTemp"></span>
+                            <ReactAnimatedWeather
+                                icon="CLOUDY"
+                                color="lightslategray"
+                                size={30}
+                                animate={true}
+                            />
                         </div>
                         <div className="col">
-                            <span className="maxTemp"></span>
-                            <span className="minTemp"></span>
+                            <ReactAnimatedWeather
+                                icon="CLOUDY"
+                                color="lightslategray"
+                                size={30}
+                                animate={true}
+                            />
                         </div>
                         <div className="col">
-                            <span className="maxTemp"></span>
-                            <span className="minTemp"></span>
+                            <ReactAnimatedWeather
+                                icon="CLOUDY"
+                                color="lightslategray"
+                                size={30}
+                                animate={true}
+                            />
                         </div>
                     </div>
                 </div>
             </div>
+            <div className="temp-days">
+                <div className="row row-cols-5">
+                    {forecast.map((dayTime, index) => (
+                        <div className="col" key={index}>
+                            <span className="maxTemp">{Math.round(dayTime.main.temp_max)}°/</span>
+                            <span className="minTemp">{Math.round(dayTime.main.temp_min)}°</span>
+                        </div>
+                    ))}
+                </div>
+                <p><em>The 5-day forecast is in Celsius!</em></p> </div>
+
         </div>
     );
 }

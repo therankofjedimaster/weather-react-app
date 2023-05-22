@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./index.css";
 import axios from "axios";
 import ReactAnimatedWeather from "react-animated-weather";
+import Forecast from "./Forecast";
 
 export default function Search() {
     const [temperature, setTemperature] = useState(null);
@@ -12,6 +13,8 @@ export default function Search() {
     const [pressure, setPressure] = useState(null);
     const [description, setDescription] = useState(null);
     const [unit, setUnit] = useState("Celsius");
+    const [coordinates, setCoordinates] = useState(null);
+    const [searchedCityCoordinates, setSearchedCityCoordinates] = useState(null);
 
     function searchCity(cityName) {
         const apiKey = "b6f13b15bc39c8fd600adbc9db22e8c9";
@@ -24,6 +27,14 @@ export default function Search() {
             setWind(response.data.wind.speed);
             setPressure(response.data.main.pressure);
             setDescription(response.data.weather[0].main);
+            setCoordinates({
+                lat: response.data.coord.lat,
+                lon: response.data.coord.lon
+            });
+            setSearchedCityCoordinates({
+                lat: response.data.coord.lat,
+                lon: response.data.coord.lon
+            });
         });
     }
 
@@ -60,10 +71,14 @@ export default function Search() {
                 setWind(response.data.wind.speed);
                 setPressure(response.data.main.pressure);
                 setDescription(response.data.weather[0].main);
+                setCoordinates({
+                    lat: response.data.coord.lat,
+                    lon: response.data.coord.lon
+                });
             });
         });
-
     }
+
     function showFahrenheit(event) {
         event.preventDefault();
         if (unit !== "Fahrenheit") {
@@ -79,9 +94,10 @@ export default function Search() {
             setUnit("Celsius");
         }
     }
+
     function formatLastFetchedDate(date) {
-        const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
-        return date.toLocaleString(undefined, options).replace(/:\d{2}$/, '');
+        const options = { year: "numeric", month: "long", day: "numeric", hour: "numeric", minute: "numeric" };
+        return date.toLocaleString(undefined, options).replace(/:\d{2}$/, "");
     }
 
     useEffect(() => {
@@ -122,7 +138,6 @@ export default function Search() {
             <h2 className="date">
                 Last fetched: {lastFetched ? formatLastFetchedDate(lastFetched) : "Unknown"}
             </h2>
-
             <div className="row row-cols-2 row-cols-md-1">
                 <div className="current-temp">
                     <p>
@@ -132,14 +147,17 @@ export default function Search() {
                             <span className="temp">
                                 {temperature ? Math.round(temperature) : "Thinking..."}
                             </span>
-                            <span className="unit"> <a href="/" onClick={showCelsius}>
-                                °C{" "}
-                            </a>{" "}
+                            <span className="unit">
+                                {" "}
+                                <a href="/" onClick={showCelsius}>
+                                    °C{" "}
+                                </a>{" "}
                                 |{" "}
                                 <a href="/" className="unit" onClick={showFahrenheit}>
                                     {" "}
                                     °F{" "}
-                                </a>{" "}</span>
+                                </a>{" "}
+                            </span>
                         </div>
                     </p>
                 </div>
@@ -183,6 +201,12 @@ export default function Search() {
                     {""}
                 </p>
             </div>
-        </div >
+            {coordinates && (
+                <Forecast
+                    coordinates={coordinates}
+                    searchedCityCoordinates={searchedCityCoordinates}
+                />
+            )}
+        </div>
     );
 }

@@ -3,25 +3,34 @@ import "./index.css";
 import ReactAnimatedWeather from "react-animated-weather";
 import axios from "axios";
 
-export default function Forecast() {
+export default function Forecast({ searchedCityCoordinates }) {
     const [forecast, setForecast] = useState([]);
 
     useEffect(() => {
-        navigator.geolocation.getCurrentPosition(getForecast);
-    }, []);
+        if (searchedCityCoordinates) {
+            getForecast(searchedCityCoordinates);
+        } else {
+            navigator.geolocation.getCurrentPosition((position) => {
+                const currentLocationCoordinates = {
+                    lat: position.coords.latitude,
+                    lon: position.coords.longitude
+                };
+                getForecast(currentLocationCoordinates);
+            });
+        }
+    }, [searchedCityCoordinates]);
 
-    function getForecast(position) {
-        const lat = position.coords.latitude;
-        const lon = position.coords.longitude;
+    function getForecast(coordinates) {
+        const lat = coordinates.lat;
+        const lon = coordinates.lon;
         const apiKey = "b6f13b15bc39c8fd600adbc9db22e8c9";
         const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
 
-        axios
-            .get(forecastUrl)
-            .then((response) => {
-                setForecast(response.data.list.slice(0, 5));
-            })
+        axios.get(forecastUrl).then((response) => {
+            setForecast(response.data.list.slice(0, 5));
+        });
     }
+
 
     return (
         <div>
